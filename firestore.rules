@@ -1,0 +1,106 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        request.auth.token.email == 'deve3859@gmail.com' ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    // Default deny all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Admins collection
+    match /admins/{adminId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    // Profile document
+    match /profile/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Site Settings
+    match /siteSettings/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Public portfolio collections
+    match /socialLinks/{linkId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /skills/{skillId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /technologies/{techId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /projects/{projectId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /experiences/{expId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /educations/{eduId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /certifications/{certId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /achievements/{achId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /services/{serviceId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /testimonials/{testId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Contact inquiries submitted from the website
+    match /contactMessages/{messageId} {
+      allow create: if request.resource.data.name is string &&
+                    request.resource.data.name.size() > 0 &&
+                    request.resource.data.name.size() <= 100 &&
+                    request.resource.data.email is string &&
+                    request.resource.data.email.size() > 3 &&
+                    request.resource.data.email.size() <= 150 &&
+                    request.resource.data.subject is string &&
+                    request.resource.data.subject.size() <= 200 &&
+                    request.resource.data.message is string &&
+                    request.resource.data.message.size() > 0 &&
+                    request.resource.data.message.size() <= 3000;
+      allow read, update, delete: if isAdmin();
+    }
+  }
+}

@@ -1,0 +1,135 @@
+{
+  "entities": {
+    "profile": {
+      "title": "Developer Profile",
+      "description": "Core identity, bio, statistics and avatar of the developer",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "maxLength": 100 },
+        "title": { "type": "string", "maxLength": 150 },
+        "tagline": { "type": "string", "maxLength": 300 },
+        "bio": { "type": "string", "maxLength": 3000 },
+        "aboutText": { "type": "string", "maxLength": 4000 },
+        "avatarUrl": { "type": "string", "maxLength": 1000 },
+        "coverUrl": { "type": "string", "maxLength": 1000 },
+        "location": { "type": "string", "maxLength": 150 },
+        "email": { "type": "string", "maxLength": 150 },
+        "phone": { "type": "string", "maxLength": 50 },
+        "website": { "type": "string", "maxLength": 255 },
+        "resumeUrl": { "type": "string", "maxLength": 1000 },
+        "yearsOfExperience": { "type": "number" },
+        "completedProjects": { "type": "number" },
+        "happyClients": { "type": "number" },
+        "technologiesCount": { "type": "number" }
+      },
+      "required": ["name", "title", "email"]
+    },
+    "socialLink": {
+      "title": "Social Link",
+      "description": "Developer social presence URLs and icon references",
+      "type": "object",
+      "properties": {
+        "platform": { "type": "string", "maxLength": 50 },
+        "url": { "type": "string", "maxLength": 500 },
+        "icon": { "type": "string", "maxLength": 50 },
+        "order": { "type": "number" },
+        "isEnabled": { "type": "boolean" }
+      },
+      "required": ["platform", "url"]
+    },
+    "skill": {
+      "title": "Skill",
+      "description": "Skill with proficiency and category",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "maxLength": 100 },
+        "category": { "type": "string", "maxLength": 50 },
+        "proficiency": { "type": "number" },
+        "icon": { "type": "string", "maxLength": 50 },
+        "order": { "type": "number" },
+        "isEnabled": { "type": "boolean" }
+      },
+      "required": ["name", "category", "proficiency"]
+    },
+    "project": {
+      "title": "Project",
+      "description": "Portfolio work showcase project",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "maxLength": 150 },
+        "slug": { "type": "string", "maxLength": 150 },
+        "shortDescription": { "type": "string", "maxLength": 400 },
+        "fullDescription": { "type": "string", "maxLength": 5000 },
+        "thumbnail": { "type": "string", "maxLength": 1000 },
+        "images": { "type": "array" },
+        "technologies": { "type": "array" },
+        "githubUrl": { "type": "string", "maxLength": 500 },
+        "liveUrl": { "type": "string", "maxLength": 500 },
+        "category": { "type": "string", "maxLength": 50 },
+        "isFeatured": { "type": "boolean" },
+        "isPublished": { "type": "boolean" },
+        "order": { "type": "number" },
+        "year": { "type": "string", "maxLength": 20 }
+      },
+      "required": ["title", "slug", "shortDescription"]
+    },
+    "experience": {
+      "title": "Work Experience",
+      "description": "Professional engineering history",
+      "type": "object",
+      "properties": {
+        "company": { "type": "string", "maxLength": 150 },
+        "position": { "type": "string", "maxLength": 150 },
+        "location": { "type": "string", "maxLength": 150 },
+        "startDate": { "type": "string", "maxLength": 50 },
+        "endDate": { "type": "string", "maxLength": 50 },
+        "isCurrent": { "type": "boolean" },
+        "description": { "type": "string", "maxLength": 3000 },
+        "technologies": { "type": "array" },
+        "companyLogo": { "type": "string", "maxLength": 1000 },
+        "order": { "type": "number" }
+      },
+      "required": ["company", "position", "startDate"]
+    },
+    "contactMessage": {
+      "title": "Contact Message",
+      "description": "Message submitted via the public contact form",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "maxLength": 100 },
+        "email": { "type": "string", "maxLength": 150 },
+        "subject": { "type": "string", "maxLength": 200 },
+        "message": { "type": "string", "maxLength": 3000 },
+        "isRead": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["name", "email", "subject", "message"]
+    }
+  },
+  "firestore": {
+    "/profile/{docId}": {
+      "schema": "profile",
+      "description": "Developer profile document"
+    },
+    "/socialLinks/{linkId}": {
+      "schema": "socialLink",
+      "description": "Social links collection"
+    },
+    "/skills/{skillId}": {
+      "schema": "skill",
+      "description": "Skills collection"
+    },
+    "/projects/{projectId}": {
+      "schema": "project",
+      "description": "Projects portfolio collection"
+    },
+    "/experiences/{expId}": {
+      "schema": "experience",
+      "description": "Work experiences collection"
+    },
+    "/contactMessages/{messageId}": {
+      "schema": "contactMessage",
+      "description": "Incoming contact inquiries"
+    }
+  }
+}
